@@ -1,6 +1,9 @@
 <template>
   <header class="header-flex">
-    <h2>Suppression de la validation et/ou des verrous d'un suivi.</h2>
+    <h2>Suppression de la validation et des verrous d'un suivi.</h2>
+    <div style="font-size: 14px; color: red;">
+      A n'effectuer que si c'est impossible que le valideur et les vérouilleurs suppriment eux mêmes validation et verrous.
+    </div>
     <div class="user-info">
       <suspense>
         <UserInformation groupeSecurite="GoelandManager"></UserInformation>

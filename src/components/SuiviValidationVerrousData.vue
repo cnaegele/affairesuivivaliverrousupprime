@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useDataStore } from '@/stores/datastore.ts'
-import { getDataSuivi } from '@/axioscalls.ts'
+import { getDataSuivi, supprimeValidVerrouSuivi } from '@/axioscalls.ts'
 import type { DataSuivi } from '@/axioscalls.ts'
 
 const lesDatas = useDataStore()
@@ -90,8 +90,18 @@ watch(() => lesDatas.idAffaireSuivi, async (newValue) => {
 }, { immediate: true })
 
 async function supprimer(): Promise<void> {
-  // TODO: à implémenter
-  console.log('supprimer', lesDatas.idAffaireSuivi)
+  if (!confirm('Supprimer la validation et le(s) verrou(s) de ce suivi ?')) {
+    return
+  }
+  loading.value = true
+  erreur.value = ''
+  const response = await supprimeValidVerrouSuivi(lesDatas.idAffaireSuivi)
+  if (response.success) {
+    data.value = response
+  } else {
+    erreur.value = response.message
+  }
+  loading.value = false
 }
 </script>
 

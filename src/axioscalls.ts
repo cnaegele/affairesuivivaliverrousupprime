@@ -112,6 +112,26 @@ export async function getDataSuivi(idAffaireSuivi: number): Promise<DataSuivi> {
   }
 }
 
+export async function supprimeValidVerrouSuivi(idAffaireSuivi: number): Promise<DataSuivi> {
+  const odata = {
+    idaffairesuivi: idAffaireSuivi
+  }
+  const jdata: string = JSON.stringify(odata)
+  const page: string = '/goeland/gestion_spec/affairesuivi_valid_verrou_supprime/axios/affairesuivi_valid_verrou_supprime.php'
+  const url: string = `${server}${page}`
+  try {
+    const response: AxiosResponse<DataSuiviRaw> = await axios.post(url, jdata, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    console.log('après supprime',response.data)
+    return transformeDataSuivi(response.data, idAffaireSuivi)
+  } catch (error) {
+    return { success: false, message: `ERREUR. ${traiteAxiosError(error)}`, validations: [], verrous: [] }
+  }
+}
+
 /* ---------- Transformation ---------- */
 
 function transformeDataSuivi(raw: DataSuiviRaw, idAffaireSuivi: number): DataSuivi {
